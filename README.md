@@ -12,9 +12,9 @@ By default, if no logger is provided, **no logs are emitted** (silent mode).
 ## 📦 Installation
 
 ```bash
-npm install @salespark/route-utils
-# or
 yarn add @salespark/route-utils
+# or
+npm install @salespark/route-utils
 ```
 
 Supports both **CommonJS** and **ESM** imports.
@@ -57,15 +57,15 @@ All route handlers must return an object with the following structure:
 
 ### Status Rules
 
-- ✅ `status: true` → Success
-- ❌ `status: false` → Failure
-- 🚨 Missing `status` → treated as malformed response (`500` with `MissingStatus`)
+- ✅ `status: true` → Success: The HTTP response will send **only the `data` directly** (e.g., `res.json(data)` for 200, or no content for 204).
+- ❌ `status: false` → Failure: The HTTP response will send **only the error details directly** (e.g., `res.json({ error: "...", message: "..." })` for 400 or other codes).
+- 🚨 Missing `status` → Treated as malformed response (`500` with basic error message).
 
 ### Default HTTP Mapping
 
-- Success with data → `200 OK`
+- Success with data → `200 OK` (sends data directly)
 - Success without data (`null`, `undefined`, `""`) → `204 No Content`
-- Failure → `400 Bad Request`
+- Failure → `400 Bad Request` (sends error details directly)
 - Explicit `http` value (100–599) always overrides
 
 ---
@@ -207,11 +207,26 @@ npm install @salespark/route-utils
 
 ---
 
+### 🔒 Internal Usage Notice
+
+This package is primarily designed and maintained for internal use within the SalesPark ecosystem.
+While it can technically be used in other Node.js/Mongoose projects, no official support or guarantees are provided outside of SalesPark-managed projects.
+
+All code follows the same engineering standards applied across the SalesPark platform, ensuring consistency, reliability, and long-term maintainability of our internal systems.
+
+⚡ Note: This package is most efficient and works best when used together with other official SalesPark packages, where interoperability and optimizations are fully leveraged.
+
+Disclaimer: This software is provided “as is”, without warranties of any kind, express or implied. SalesPark shall not be held liable for any issues, damages, or losses arising from its use outside the intended SalesPark environment.
+
+Organization packages: https://www.npmjs.com/org/salespark
+
+---
+
 ## 📄 License
 
 MIT © [SalesPark](https://salespark.io)
 
 ---
 
-_Document version: 1_  
-_Last update: 16-08-2025_
+_Document version: 2_  
+_Last update: 21-08-2025_
