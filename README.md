@@ -196,12 +196,11 @@ const { wrapRoute } = makeRouteUtils({
 
 ---
 
-## 📦 NPM Package
-
-This module is published as:  
-👉 [`@salespark/route-utils`](https://www.npmjs.com/package/@salespark/route-utils)
+## 📦 Installation
 
 ```bash
+yarn add @salespark/route-utils
+# or
 npm install @salespark/route-utils
 ```
 
