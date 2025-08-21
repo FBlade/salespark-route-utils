@@ -101,14 +101,14 @@ export const makeRouteUtils = ({
         routeLogger({ message: "Unexpected response shape", response, route: tag }, tag);
 
         if (!res.headersSent) {
-          res.status(500).json({ status: false, error: "UnexpectedResponseShape" });
+          res.status(500).json({ error: "UnexpectedResponseShape" });
         }
       } catch (err) {
         // Unhandled error in the handler
         routeLogger(err, `${tag}/catch`);
 
         if (!res.headersSent) {
-          res.status(500).json({ status: false, error: (err as any)?.message || "Unexpected error" });
+          res.status(500).json({ error: (err as any)?.message || "Unexpected error" });
         }
       }
     };
@@ -174,6 +174,7 @@ export const makeRouteUtils = ({
  * @returns         true if a response was sent; false if `res` looked invalid (no send)
  * History:
  * 16-08-2025: Created
+ * 21-08-2025: Changed response method to directly use response.data
  ****************************************************************************************************************/
 export const resolveRouteResponse = (res: ResLike, response: any): boolean => {
   try {
@@ -186,7 +187,7 @@ export const resolveRouteResponse = (res: ResLike, response: any): boolean => {
     // Validate presence of `status`
     const hasStatus = response && typeof response === "object" && Object.prototype.hasOwnProperty.call(response, "status");
     if (!hasStatus) {
-      res.status(500).json({ status: false, error: "MissingStatus", message: "Missing `status` on response object" });
+      res.status(500).json({ error: "MissingStatus", message: "Missing `status` on response object" });
       return true;
     }
 
@@ -218,10 +219,7 @@ export const resolveRouteResponse = (res: ResLike, response: any): boolean => {
       if (http === 204) {
         res.status(http).send();
       } else {
-        const out: ApiResponse = { status: true };
-        if (response.data !== undefined) (out as any).data = response.data;
-        if (response.meta !== undefined) (out as any).meta = response.meta;
-        res.status(http).json(out);
+        res.status(http).json(response.data);
       }
       return true;
     }
@@ -239,7 +237,7 @@ export const resolveRouteResponse = (res: ResLike, response: any): boolean => {
             }
           : { error: "RequestFailed", message: typeof raw === "string" ? raw : "Request failed" };
 
-      res.status(http).json({ status: false, ...errBody, ...(response.meta !== undefined ? { meta: response.meta } : {}) });
+      res.status(http).json(errBody);
       return true;
     }
 

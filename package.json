@@ -1,41 +1,37 @@
 {
-  "name": "@salespark/route-utils",
-  "version": "1.0.0",
-  "description": "Vendor-agnostic helpers for Express route handlers with normalized responses and optional logging.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "name": "@salespark/mongo-repo-utils",
+  "version": "1.0.1",
+  "description": "Utility helpers for MongoDB repositories with caching, metrics, and flexible model resolution.",
+  "main": "index.js",
   "files": [
-    "dist"
+    "index.js"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-    "clean": "rm -rf dist",
-    "prepublishOnly": "yarn run clean && yarn run build"
+    "prepublishOnly": "echo 'No build step required for JS package'"
   },
   "keywords": [
-    "express",
-    "middleware",
-    "http",
-    "routes",
-    "api",
-    "response",
+    "mongodb",
+    "mongoose",
+    "repository",
+    "utils",
+    "cache",
     "logger",
+    "metrics",
     "salespark"
   ],
   "author": "SalesPark",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/salespark/route-utils.git"
+    "url": "https://github.com/FBlade/salespark-mongo-repo-utils.git"
   },
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "typescript": "^5.4.0",
-    "@types/express": "^4.17.21"
+  "dependencies": {
+    "mongoose": "^7.6.0"
   },
   "peerDependencies": {
-    "express": ">=4"
+    "mongoose": ">=7"
   }
 }
