@@ -196,16 +196,6 @@ const { wrapRoute } = makeRouteUtils({
 
 ---
 
-## 📦 Installation
-
-```bash
-yarn add @salespark/route-utils
-# or
-npm install @salespark/route-utils
-```
-
----
-
 ## 🛠️ Support
 
 Got stuck? Don’t panic — we’ve got you covered.
@@ -215,7 +205,7 @@ Got stuck? Don’t panic — we’ve got you covered.
 We built a custom **AI Assistant** trained _only_ on `@salespark/route-utils`.  
 It answers implementation and troubleshooting questions in real time:
 
-👉 Ask the Route Utils GPT:
+👉 Ask the Route Utils GPT:  
 https://chatgpt.com/g/g-68a9b742f240819197057ba3333230be-salespark-route-utils-v1
 
 _(Free to use with a ChatGPT account)_
@@ -243,5 +233,5 @@ MIT © [SalesPark](https://salespark.io)
 
 ---
 
-_Document version: 2_  
-_Last update: 21-08-2025_
+_Document version: 3_  
+_Last update: 23-08-2025_
