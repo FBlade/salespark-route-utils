@@ -206,6 +206,22 @@ npm install @salespark/route-utils
 
 ---
 
+## 🛠️ Support
+
+Got stuck? Don’t panic — we’ve got you covered.
+
+### 🤖 AI Assistant
+
+We built a custom **AI Assistant** trained _only_ on `@salespark/route-utils`.  
+It answers implementation and troubleshooting questions in real time:
+
+👉 Ask the Route Utils GPT:
+https://chatgpt.com/g/g-68a9b742f240819197057ba3333230be-salespark-route-utils-v1
+
+_(Free to use with a ChatGPT account)_
+
+---
+
 ### 🔒 Internal Usage Notice
 
 This package is primarily designed and maintained for internal use within the SalesPark ecosystem.
