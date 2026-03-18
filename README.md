@@ -21,10 +21,10 @@ Supports both **CommonJS** and **ESM** imports.
 
 ```ts
 // ESM
-import { wrapRoute, createResponder, makeRouteUtils, resolveRouteResponse } from "@salespark/route-utils";
+import { wrapRoute, createResponder, makeRouteUtils, resolveRouteResponse, errorSanatizer } from "@salespark/route-utils";
 
 // CommonJS
-const { wrapRoute, createResponder, makeRouteUtils, resolveRouteResponse } = require("@salespark/route-utils");
+const { wrapRoute, createResponder, makeRouteUtils, resolveRouteResponse, errorSanatizer } = require("@salespark/route-utils");
 ```
 
 ---
@@ -75,7 +75,7 @@ All route handlers must return an object with the following structure:
 ```ts
 import { makeRouteUtils } from "@salespark/route-utils";
 
-const { wrapRoute, createResponder, resolveRouteResponse } = makeRouteUtils({
+const { wrapRoute, createResponder, resolveRouteResponse, errorSanatizer } = makeRouteUtils({
   logger: console.error, // or rollbar.error, sentry.captureException, etc.
   tagPrefix: "/routes/producers", // optional prefix for logs
 });
@@ -91,6 +91,7 @@ const { wrapRoute, createResponder, resolveRouteResponse } = makeRouteUtils({
 - `wrapRoute`
 - `createResponder`
 - `resolveRouteResponse`
+- `errorSanatizer`
 
 ---
 
@@ -107,8 +108,8 @@ router.get(
       const producerId = res.locals.auth.producer_id;
       return ops.getProducerAchievements(producerId);
     },
-    { tag: "GET /achievements" }
-  )
+    { tag: "GET /achievements" },
+  ),
 );
 ```
 
@@ -136,6 +137,52 @@ if (!resolveRouteResponse(res, response)) {
 
 ---
 
+### `errorSanatizer`
+
+Sanitizes error output to avoid leaking sensitive data. It tries `error.reason`, then `error.message`, then falls back to a safe default.
+
+```ts
+const { createResponder, errorSanatizer } = require("@salespark/route-utils");
+
+router.post("/something-awesome", async (req, res) => {
+  try {
+    // ...working code here...
+    // Some code here that might throw an error
+
+    const respond = createResponder(res);
+    await respond(() => ops.yourAwesomeFunction(req.body));
+
+    // Error handling
+  } catch (error) {
+    res.status(500).send(errorSanatizer(error)).end();
+  }
+});
+
+router.post("/something-awesome", async (req, res) => {
+  try {
+    ops
+      .yourAwesomeFunction(req.body)
+      .then((response) => {
+        res.status(200).send(response).end();
+      })
+      .catch((err) => {
+        res.status(400).send(errorSanatizer(err)).end();
+      });
+
+    // Error handling
+  } catch (error) {
+    res.status(500).send(errorSanatizer(error)).end();
+  }
+});
+```
+
+Options:
+
+- `maxLength` (default: 500)
+- `allowErrorMessage` (default: false) - When true, allows `error.message` for `Error` instances
+
+---
+
 ## 🧪 Usage Examples
 
 ### Example 1: Silent Mode (default)
@@ -143,7 +190,7 @@ if (!resolveRouteResponse(res, response)) {
 ```ts
 app.get(
   "/ping",
-  wrapRoute(async () => ({ status: true, data: "pong" }))
+  wrapRoute(async () => ({ status: true, data: "pong" })),
 );
 ```
 
@@ -176,7 +223,7 @@ app.post(
       return { status: false, data: { error: "ValidationError", message: "Name required" }, http: 422 };
     }
     return { status: true, data: { id: 1, name: req.body.name }, http: 201 };
-  })
+  }),
 );
 ```
 
@@ -233,5 +280,5 @@ MIT © [SalesPark](https://salespark.io)
 
 ---
 
-_Document version: 3_  
-_Last update: 23-08-2025_
+_Document version: 4_  
+_Last update: 18-03-2026_
