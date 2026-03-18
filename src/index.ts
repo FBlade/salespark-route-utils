@@ -308,7 +308,6 @@ export const resolveRouteResponse = (res: ResLike, response: any): boolean => {
 const silent = makeRouteUtils(); // logger: noop (silent)
 export const wrapRoute = silent.wrapRoute;
 export const createResponder = silent.createResponder;
-export const errorSanatizer = silent.errorSanatizer;
 
 /** Default export bundle (optional convenience) */
 export default {
