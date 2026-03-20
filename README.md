@@ -21,10 +21,10 @@ Supports both **CommonJS** and **ESM** imports.
 
 ```ts
 // ESM
-import { wrapRoute, createResponder, makeRouteUtils, resolveRouteResponse, errorSanatizer } from "@salespark/route-utils";
+import { wrapRoute, createResponder, makeRouteUtils, resolveRouteResponse, errorSanitizer } from "@salespark/route-utils";
 
 // CommonJS
-const { wrapRoute, createResponder, makeRouteUtils, resolveRouteResponse, errorSanatizer } = require("@salespark/route-utils");
+const { wrapRoute, createResponder, makeRouteUtils, resolveRouteResponse, errorSanitizer } = require("@salespark/route-utils");
 ```
 
 ---
@@ -75,7 +75,7 @@ All route handlers must return an object with the following structure:
 ```ts
 import { makeRouteUtils } from "@salespark/route-utils";
 
-const { wrapRoute, createResponder, resolveRouteResponse, errorSanatizer } = makeRouteUtils({
+const { wrapRoute, createResponder, resolveRouteResponse, errorSanitizer } = makeRouteUtils({
   logger: console.error, // or rollbar.error, sentry.captureException, etc.
   tagPrefix: "/routes/producers", // optional prefix for logs
 });
@@ -91,7 +91,7 @@ const { wrapRoute, createResponder, resolveRouteResponse, errorSanatizer } = mak
 - `wrapRoute`
 - `createResponder`
 - `resolveRouteResponse`
-- `errorSanatizer`
+- `errorSanitizer`
 
 ---
 
@@ -137,12 +137,12 @@ if (!resolveRouteResponse(res, response)) {
 
 ---
 
-### `errorSanatizer`
+### `errorSanitizer`
 
 Sanitizes error output to avoid leaking sensitive data. It tries `error.reason`, then `error.message`, then falls back to a safe default.
 
 ```ts
-const { createResponder, errorSanatizer } = require("@salespark/route-utils");
+const { createResponder, errorSanitizer } = require("@salespark/route-utils");
 
 router.post("/something-awesome", async (req, res) => {
   try {
@@ -154,7 +154,7 @@ router.post("/something-awesome", async (req, res) => {
 
     // Error handling
   } catch (error) {
-    res.status(500).send(errorSanatizer(error)).end();
+    res.status(500).send(errorSanitizer(error)).end();
   }
 });
 
@@ -166,12 +166,12 @@ router.post("/something-awesome", async (req, res) => {
         res.status(200).send(response).end();
       })
       .catch((err) => {
-        res.status(400).send(errorSanatizer(err)).end();
+        res.status(400).send(errorSanitizer(err)).end();
       });
 
     // Error handling
   } catch (error) {
-    res.status(500).send(errorSanatizer(error)).end();
+    res.status(500).send(errorSanitizer(error)).end();
   }
 });
 ```
@@ -280,5 +280,5 @@ MIT © [SalesPark](https://salespark.io)
 
 ---
 
-_Document version: 4_  
-_Last update: 18-03-2026_
+_Document version: 5_  
+_Last update: 20-03-2026_

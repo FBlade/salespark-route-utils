@@ -103,7 +103,7 @@ const sanitizeMessage = (message: string, maxLength: number): string => {
  * History:
  * 18-03-2026: Created
  ****************************************************************************************************************/
-export const errorSanatizer = (
+export const errorSanitizer = (
   error: unknown,
   options: {
     maxLength?: number;
@@ -122,7 +122,7 @@ export const errorSanatizer = (
  * Builds helper functions bound to a default logger and tag prefix for consistent route handling.
  * @param {LoggerFn} logger - Optional logger for reporting unexpected shapes or errors
  * @param {string} tagPrefix - Optional prefix appended to generated log tags
- * @returns {object} - Helper bundle: wrapRoute, createResponder, resolveRouteResponse, errorSanatizer
+ * @returns {object} - Helper bundle: wrapRoute, createResponder, resolveRouteResponse, errorSanitizer
  * History:
  * 16-08-2025: Created
  ****************************************************************************************************************/
@@ -208,7 +208,7 @@ export const makeRouteUtils = ({
     };
   };
 
-  return { wrapRoute, createResponder, resolveRouteResponse, errorSanatizer };
+  return { wrapRoute, createResponder, resolveRouteResponse, errorSanitizer };
 };
 
 /****************************************************************************************************************
@@ -314,6 +314,6 @@ export default {
   makeRouteUtils,
   wrapRoute,
   createResponder,
-  errorSanatizer,
+  errorSanitizer,
   resolveRouteResponse,
 };

@@ -1,6 +1,6 @@
 {
   "name": "@salespark/route-utils",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Vendor-agnostic helpers for Express route handlers with normalized responses and optional logging.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,7 +26,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/salespark/route-utils.git"
+    "url": "https://github.com/FBlade/salespark-route-utils.git"
   },
   "publishConfig": {
     "access": "public"
