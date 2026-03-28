@@ -151,6 +151,7 @@ export const errorSanitizer = (
  * @returns {{ error: string; message?: string }} - Safe error response payload
  * History:
  * 27-03-2026: Created
+ * 28-03-2026: Preserve non-error object payloads (e.g. code) while sanitizing message fields
  ****************************************************************************************************************/
 const buildErrorBody = (
   raw: unknown,
@@ -173,10 +174,13 @@ const buildErrorBody = (
 
     if (errorValue || messageValue) {
       return {
+        ...err,
         ...(errorValue ? { error: sanitizeMessage(errorValue, maxLength) } : {}),
         ...(messageValue ? { message: sanitizeMessage(messageValue, maxLength) } : {}),
       };
     }
+
+    return err;
   }
 
   const message = typeof raw === "string" ? raw : "Request failed";
