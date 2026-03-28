@@ -58,8 +58,12 @@ All route handlers must return an object with the following structure:
 ### Status Rules
 
 - ✅ `status: true` → Success: The HTTP response will send **only the `data` directly** (e.g., `res.json(data)` for 200, or no content for 204).
-- ❌ `status: false` → Failure: The HTTP response will send **only the error details directly** (e.g., `res.json({ error: "...", message: "..." })` for 400 or other codes).
+- ❌ `status: false` → Failure: The HTTP response will send **only a safe error payload** (e.g., `res.json({ error: "...", message: "..." })` for 400 or other codes).
 - 🚨 Missing `status` → Treated as malformed response (`500` with basic error message).
+
+#### Security note (failures)
+
+When `status: false`, **the response never exposes sensitive error data**. If `data` is an `Error` instance, the payload is sanitized and **does not include stack traces or raw error objects**. By default, only a generic message is returned. You can explicitly allow `Error.message` when needed via `createResponder` options.
 
 ### Default HTTP Mapping
 
@@ -122,6 +126,12 @@ router.get("/achievements", validateAuth, async (req, res) => {
   const respond = createResponder(res, { tag: "GET /achievements" });
   await respond(() => ops.getProducerAchievements(res.locals.auth.producer_id));
 });
+
+// Allow exposing Error.message (optional override)
+router.get("/debug", async (req, res) => {
+  const respond = createResponder(res, { allowErrorMessage: true });
+  await respond(() => ops.debugRoute());
+});
 ```
 
 ---
@@ -133,6 +143,9 @@ const response = await ops.doSomething();
 if (!resolveRouteResponse(res, response)) {
   res.status(500).json({ status: false, error: "No response sent" });
 }
+
+// Optional: allow Error.message when response.data is an Error instance
+resolveRouteResponse(res, response, { allowErrorMessage: true });
 ```
 
 ---
@@ -280,5 +293,5 @@ MIT © [SalesPark](https://salespark.io)
 
 ---
 
-_Document version: 5_  
-_Last update: 20-03-2026_
+_Document version: 6_  
+_Last update: 28-03-2026_
