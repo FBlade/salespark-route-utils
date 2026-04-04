@@ -1,6 +1,6 @@
 {
   "name": "@salespark/route-utils",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Vendor-agnostic helpers for Express route handlers with normalized responses and optional logging.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -33,6 +33,8 @@
   },
   "devDependencies": {
     "@types/express": "5.0.6",
+    "grunt": "1.6.1",
+    "grunt-bump": "0.8.0",
     "rimraf": "6.1.3",
     "typescript": "6.0.2"
   },
